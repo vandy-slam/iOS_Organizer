@@ -27,6 +27,7 @@ class ImageManager {
     }
     
     func acceptImage(image: UIImage, accelerometerData: CMAccelerometerData, magnetometerData: CMMagnetometerData, gyroData: CMGyroData) {
+        guard let contents = contents else {return}
         contents.insert(
             ImageWrapper(imageData: image.jpegData(compressionQuality: 0.25)!,
                          accelerometerData: accelerometerData,

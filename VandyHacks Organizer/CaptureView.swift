@@ -25,7 +25,8 @@ class CaptureView: UIViewController {
     var capturedPhoto: UIImage?
     
     var imageManager = ImageManager()
-    let motion = CMMotionManager()
+    var motion: CMMotionManager!
+    var location = ""
     
     var timer: Timer?
     
@@ -42,6 +43,7 @@ class CaptureView: UIViewController {
         self.title = "Capture SLAMMY"
         
         loadCamera()
+        motion = CMMotionManager()
     }
     
     func loadCamera() {
@@ -101,20 +103,6 @@ class CaptureView: UIViewController {
         return devices.count == 1 ? devices[0] : nil
     }
     
-    
-    func addPhoto(image: UIImage) {
-        
-        if
-            let accelerometerData = self.motion.accelerometerData,
-            let magnetometerData = self.motion.magnetometerData,
-            let gyroData = self.motion.gyroData
-        {
-            imageManager.acceptImage(image: image, accelerometerData: accelerometerData, magnetometerData: magnetometerData, gyroData: gyroData)
-            images += 1
-            imagesLbl.text = "Images: \(images)"
-        }
-    }
-    
     @IBAction func tappedCapture() {
         
         if running {
@@ -122,15 +110,25 @@ class CaptureView: UIViewController {
             
             self.timer!.invalidate()
             
+            captureBtn.setTitle("Capture", for: .normal)
+            captureBtn.setTitleColor(self.view.tintColor, for: .normal)
+            captureBtn.layer.borderColor = self.view.tintColor.cgColor
+            
+            captureView.isHidden = true
+            
             Requests.uploadImages(imageData: imageManager.endSession()) { (completion) in
-                print("completion", completion)
-                self.navigationController?.popViewController(animated: true)
+                DispatchQueue.main.async {
+                    self.imagesLbl.text = "\(completion)% uploaded"
+                    if Int(completion) == 100 {
+                        self.navigationController?.popToRootViewController(animated: true)
+                    }
+                }
             }
         } else {
             running = true
             imageManager.startSession()
             
-            let frequency = 1.0 / 20.0
+            let frequency = 1.0 / 5.0
             
             if self.motion.isAccelerometerAvailable {
                 self.motion.accelerometerUpdateInterval = frequency
@@ -138,6 +136,8 @@ class CaptureView: UIViewController {
                 self.motion.magnetometerUpdateInterval = frequency
                 
                 self.motion.startAccelerometerUpdates()
+                self.motion.startGyroUpdates()
+                self.motion.startMagnetometerUpdates()
             }
             
             self.timer = Timer(fire: Date(), interval: frequency, repeats: true, block: { (timer) in
@@ -148,12 +148,10 @@ class CaptureView: UIViewController {
             
             RunLoop.current.add(timer!, forMode: .default)
             
-            
-            
             captureBtn.setTitle("Stop", for: .normal)
             captureBtn.setTitleColor(.red, for: .normal)
+            captureBtn.layer.borderColor = UIColor.red.cgColor
         }
-        
     }
 }
 
@@ -165,23 +163,19 @@ extension CaptureView:  AVCapturePhotoCaptureDelegate
         if let error = error {
             print("Error capturing photo: \(error)")
         } else {
-            let completionBlock = {
-                self.capturedPhoto = nil
-                self.view.fadeOutLoadingView()
-            }
             
             guard
                 let sampleBuffer = photoSampleBuffer,
-                let dataImage = AVCapturePhotoOutput.jpegPhotoDataRepresentation(forJPEGSampleBuffer: sampleBuffer, previewPhotoSampleBuffer: previewPhotoSampleBuffer)
-                else { completionBlock(); return }
+                let dataImage = AVCapturePhotoOutput.jpegPhotoDataRepresentation(forJPEGSampleBuffer: sampleBuffer, previewPhotoSampleBuffer: previewPhotoSampleBuffer),
+                let image = UIImage(data: dataImage),
+                let accelerometerData = self.motion.accelerometerData,
+                let magnetometerData = self.motion.magnetometerData,
+                let gyroData = self.motion.gyroData
+                else { return }
             
-            guard let image = UIImage(data:dataImage) else { completionBlock(); return }
-            
-            guard let cgImage = image.cgImage else { completionBlock(); return }
-            
-            let orientedImage = UIImage(cgImage: cgImage, scale: 1.0, orientation: UIImage.Orientation.leftMirrored).normalizeOrientation()
-            
-            self.addPhoto(image: orientedImage ?? image)
+            imageManager.acceptImage(image: image, accelerometerData: accelerometerData, magnetometerData: magnetometerData, gyroData: gyroData)
+            images += 1
+            imagesLbl.text = "Images: \(images)"
         }
         
     }

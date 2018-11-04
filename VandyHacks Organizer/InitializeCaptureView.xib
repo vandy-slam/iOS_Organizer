@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="InitializeCaptureView" customModule="VandyHacks_Organizer" customModuleProvider="target">
+            <connections>
+                <outlet property="locationField" destination="wTp-qv-EVZ" id="WG7-AA-wWI"/>
+                <outlet property="nextBtn" destination="gfT-sc-PRF" id="7C0-hx-yCX"/>
+                <outlet property="view" destination="iN0-l3-epB" id="QKU-yH-PqN"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gfT-sc-PRF">
+                    <rect key="frame" x="36" y="382.5" width="303" height="36"/>
+                    <fontDescription key="fontDescription" name="AvenirNext-Medium" family="Avenir Next" pointSize="17"/>
+                    <state key="normal" title="Next"/>
+                    <connections>
+                        <action selector="tappedNext" destination="-1" eventType="touchUpInside" id="9CH-nu-qpd"/>
+                    </connections>
+                </button>
+                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="wTp-qv-EVZ">
+                    <rect key="frame" x="36" y="328.5" width="303" height="30"/>
+                    <nil key="textColor"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <textInputTraits key="textInputTraits" returnKeyType="done"/>
+                    <connections>
+                        <outlet property="delegate" destination="-1" id="ZYW-UB-gb4"/>
+                    </connections>
+                </textField>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="What is the name of the location you are scanning?" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="M0W-m4-eGh">
+                    <rect key="frame" x="57" y="261" width="261" height="46.5"/>
+                    <fontDescription key="fontDescription" name="AvenirNext-Medium" family="Avenir Next" pointSize="17"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="gfT-sc-PRF" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="36" id="7Wx-j5-zPR"/>
+                <constraint firstItem="gfT-sc-PRF" firstAttribute="centerX" secondItem="vUN-kp-3ea" secondAttribute="centerX" id="QyA-ZL-klu"/>
+                <constraint firstItem="wTp-qv-EVZ" firstAttribute="centerY" secondItem="vUN-kp-3ea" secondAttribute="centerY" id="UHh-Qz-NrF"/>
+                <constraint firstItem="M0W-m4-eGh" firstAttribute="centerX" secondItem="vUN-kp-3ea" secondAttribute="centerX" id="ayy-Wa-IB1"/>
+                <constraint firstItem="M0W-m4-eGh" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="57" id="hxd-Oo-U9O"/>
+                <constraint firstItem="wTp-qv-EVZ" firstAttribute="top" secondItem="M0W-m4-eGh" secondAttribute="bottom" constant="21" id="kEc-JW-ttm"/>
+                <constraint firstItem="wTp-qv-EVZ" firstAttribute="centerX" secondItem="vUN-kp-3ea" secondAttribute="centerX" id="kwI-dd-dxu"/>
+                <constraint firstItem="wTp-qv-EVZ" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="36" id="ms3-tc-ZXO"/>
+                <constraint firstItem="gfT-sc-PRF" firstAttribute="top" secondItem="wTp-qv-EVZ" secondAttribute="bottom" constant="24" id="yxr-gI-vZy"/>
+            </constraints>
+            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+        </view>
+    </objects>
+</document>

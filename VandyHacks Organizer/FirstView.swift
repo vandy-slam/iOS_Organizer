@@ -24,7 +24,7 @@ class FirstView: UIVC {
     }
     
     @IBAction func tappedTakePics(_ sender: Any) {
-        self.navigationController?.pushViewController(CaptureView(), animated: true)
+        self.navigationController?.pushViewController(InitializeCaptureView(), animated: true)
         
     }
     
