@@ -12,9 +12,8 @@ import CoreMotion
 
 struct ImageWrapper {
     let imageData: Data
-    let accelerometerData: CMAccelerometerData
-    let magnetometerData: CMMagnetometerData
-    let gyroData: CMGyroData
+    let relativeTime: Int
+    let id: Int
 }
 
 
@@ -26,13 +25,15 @@ class ImageManager {
         contents = Queue<ImageWrapper>()
     }
     
-    func acceptImage(image: UIImage, accelerometerData: CMAccelerometerData, magnetometerData: CMMagnetometerData, gyroData: CMGyroData) {
+    func acceptImage(image: UIImage,
+                     relativeTime: Int,
+                     id: Int)
+    {
         guard let contents = contents else {return}
         contents.insert(
             ImageWrapper(imageData: image.jpegData(compressionQuality: 0.25)!,
-                         accelerometerData: accelerometerData,
-                         magnetometerData: magnetometerData,
-                         gyroData: gyroData)
+                         relativeTime: relativeTime,
+                         id: id)
         )
     }
     

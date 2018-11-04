@@ -25,7 +25,6 @@ class CaptureView: UIViewController {
     var capturedPhoto: UIImage?
     
     var imageManager = ImageManager()
-    var motion: CMMotionManager!
     var location = ""
     
     var timer: Timer?
@@ -33,6 +32,8 @@ class CaptureView: UIViewController {
     var running = false
     
     var images = 0
+    
+    var captureTime: Date?
     
     
     override func viewDidLoad() {
@@ -43,7 +44,6 @@ class CaptureView: UIViewController {
         self.title = "Capture SLAMMY"
         
         loadCamera()
-        motion = CMMotionManager()
     }
     
     func loadCamera() {
@@ -116,7 +116,7 @@ class CaptureView: UIViewController {
             
             captureView.isHidden = true
             
-            Requests.uploadImages(imageData: imageManager.endSession()) { (completion) in
+            Requests.uploadImages(imageData: imageManager.endSession(), location: location) { (completion) in
                 DispatchQueue.main.async {
                     self.imagesLbl.text = "\(completion)% uploaded"
                     if Int(completion) == 100 {
@@ -129,16 +129,6 @@ class CaptureView: UIViewController {
             imageManager.startSession()
             
             let frequency = 1.0 / 5.0
-            
-            if self.motion.isAccelerometerAvailable {
-                self.motion.accelerometerUpdateInterval = frequency
-                self.motion.gyroUpdateInterval = frequency
-                self.motion.magnetometerUpdateInterval = frequency
-                
-                self.motion.startAccelerometerUpdates()
-                self.motion.startGyroUpdates()
-                self.motion.startMagnetometerUpdates()
-            }
             
             self.timer = Timer(fire: Date(), interval: frequency, repeats: true, block: { (timer) in
                 let settings = AVCapturePhotoSettings()
@@ -167,14 +157,22 @@ extension CaptureView:  AVCapturePhotoCaptureDelegate
             guard
                 let sampleBuffer = photoSampleBuffer,
                 let dataImage = AVCapturePhotoOutput.jpegPhotoDataRepresentation(forJPEGSampleBuffer: sampleBuffer, previewPhotoSampleBuffer: previewPhotoSampleBuffer),
-                let image = UIImage(data: dataImage),
-                let accelerometerData = self.motion.accelerometerData,
-                let magnetometerData = self.motion.magnetometerData,
-                let gyroData = self.motion.gyroData
+                let image = UIImage(data: dataImage)
                 else { return }
             
-            imageManager.acceptImage(image: image, accelerometerData: accelerometerData, magnetometerData: magnetometerData, gyroData: gyroData)
             images += 1
+            let lapse: Int
+            
+            if captureTime == nil {
+                lapse = 0
+            } else {
+                lapse = Int(Date().timeIntervalSince(captureTime!) * 1000)
+            }
+            
+            captureTime = Date()
+            
+            
+            imageManager.acceptImage(image: image, relativeTime: lapse, id: images)
             imagesLbl.text = "Images: \(images)"
         }
         
