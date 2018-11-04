@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="FirstView" customModule="VandyHacks_Organizer" customModuleProvider="target">
+            <connections>
+                <outlet property="tappedPics" destination="DzP-O8-RYv" id="8Of-2a-AHh"/>
+                <outlet property="view" destination="iN0-l3-epB" id="3Uj-Nb-NKS"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Hello team VandySlam" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jUw-uB-rPh">
+                    <rect key="frame" x="84" y="327.5" width="207.5" height="32"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="32" id="WoH-2M-aVc"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" name="TrebuchetMS-Bold" family="Trebuchet MS" pointSize="20"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DzP-O8-RYv">
+                    <rect key="frame" x="84" y="383.5" width="207.5" height="40"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="40" id="BOK-yD-Hod"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" name="TrebuchetMS-Bold" family="Trebuchet MS" pointSize="17"/>
+                    <state key="normal" title="Take pics boi"/>
+                    <connections>
+                        <action selector="tappedTakePics:" destination="-1" eventType="touchUpInside" id="bfV-a7-qgh"/>
+                    </connections>
+                </button>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="DzP-O8-RYv" firstAttribute="width" secondItem="jUw-uB-rPh" secondAttribute="width" id="9Md-lT-2cy"/>
+                <constraint firstItem="DzP-O8-RYv" firstAttribute="top" secondItem="jUw-uB-rPh" secondAttribute="bottom" constant="24" id="AaT-Ge-IMi"/>
+                <constraint firstItem="jUw-uB-rPh" firstAttribute="centerY" secondItem="vUN-kp-3ea" secondAttribute="centerY" id="gNb-Mo-ZgR"/>
+                <constraint firstItem="DzP-O8-RYv" firstAttribute="centerX" secondItem="vUN-kp-3ea" secondAttribute="centerX" id="sIC-7K-a16"/>
+                <constraint firstItem="jUw-uB-rPh" firstAttribute="centerX" secondItem="vUN-kp-3ea" secondAttribute="centerX" id="ziz-CC-IEu"/>
+            </constraints>
+            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+        </view>
+    </objects>
+</document>
